@@ -54,7 +54,7 @@ class Login {
     }
 
     public boolean checkCellPhoneNumber(String cellphoneNumber) {
-        return cellphoneNumber.matches("^\\+27\\d{10}$");
+        return cellphoneNumber.matches("^\\+27\\d{9}$");
     }
 
     public String registerUser() {
