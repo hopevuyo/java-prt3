@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 /*
@@ -7,13 +6,13 @@ import java.util.Scanner;
  */
 /**
  *
- * @author Student
+ * @author Student vuyo ngcongwane st10527058
  */
 class Login {
 
-    private String username;
-    private String password;
-    private String cellphoneNumber;
+    private final String username;
+    private final String password;
+    private final String cellphoneNumber;
 
     public Login(String username, String password, String cellphoneNumber) {
         this.username = username;
@@ -54,7 +53,7 @@ class Login {
     }
 
     public boolean checkCellPhoneNumber(String cellphoneNumber) {
-        return cellphoneNumber.matches("^\\+27\\d{9}$");
+        return cellphoneNumber.matches("^\\+27\\d{10}$");
     }
 
     public String registerUser() {
@@ -92,6 +91,7 @@ class Login {
 public class Registration {
 
     public static void main(String[] args) {
+        
 
         Scanner hope = new Scanner(System.in);
         System.out.print("Enter your first name: ");
@@ -116,7 +116,67 @@ public class Registration {
 
         if (registrationMessage.equals("User successfully registered.")) {
 
-            System.out.println("\n--- LOGIN ---");
+            System.out.println("\n--- LOGIN ---");                 System.out.println("Welcome to QuickChat.");
+
+                System.out.print("How many messages do you want to enter? ");
+                int numMessages = Integer.parseInt(hope.nextLine());
+                int messagesEntered = 0;
+                int option = 0;
+
+                while (option != 3) {
+                    System.out.println("\n1) Send Messages");
+                    System.out.println("2) Show recently sent messages");
+                    System.out.println("3) Quit");
+                    System.out.print("Choose an option: ");
+                    option = Integer.parseInt(hope.nextLine());
+
+                    if (option == 1) {
+                        if (messagesEntered >= numMessages) {
+                            System.out.println("You have already entered all " + numMessages + " messages.");
+                        } else {
+                            for (int i = messagesEntered; i < numMessages; i++) {
+
+                                System.out.print("Enter recipient cell number: ");
+                                String recipient = hope.nextLine();
+                                Message check = new Message(i, recipient, "x");
+                                while (!check.checkRecipientCell().equals("Cell phone number successfully captured.")) {
+                                    System.out.println(check.checkRecipientCell());
+                                    System.out.print("Enter recipient cell number: ");
+                                    recipient = hope.nextLine();
+                                    check = new Message(i, recipient, "x");
+                                }
+
+                                System.out.print("Enter your message: ");
+                                String text = hope.nextLine();
+                                while (text.length() > 250) {
+                                    System.out.println("Please enter a message of less than 250 characters.");
+                                    System.out.print("Enter your message: ");
+                                    text = hope.nextLine();
+                                }
+                                System.out.println("Message sent");
+
+                                Message msg = new Message(i, recipient, text);
+
+                                System.out.println("1) Send Message  2) Disregard Message  3) Store Message to send later");
+                                int choice = Integer.parseInt(hope.nextLine());
+                                System.out.println(msg.SentMessage(choice));
+
+                                if (choice == 1) {
+                                    msg.addToSent();
+                                    System.out.println(msg.getDetails());
+                                } else if (choice == 3) {
+                                    msg.storeMessage();
+                                }
+                            }
+                            messagesEntered = numMessages;
+                            System.out.println("Total messages sent: " + Message.returnTotalMessages());
+                        }
+                    } else if (option == 2) {
+                        System.out.println("Coming Soon.");
+                    } else if (option != 3) {
+                        System.out.println("Invalid option.");
+                    }
+                }
 
             System.out.print("Enter your username: ");
             String loginUsername = hope.nextLine();
@@ -135,6 +195,10 @@ public class Registration {
 
                 System.out.println(
                         "Username or password incorrect, please try again."
+                );
+                                System.out.println(
+                        "Welcome " + firstName + " " + lastName
+                        + ", it is great to see you again."
                 );
             }
         }
